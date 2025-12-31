@@ -53,16 +53,16 @@ export function renderPaperCard(paper, callbacks) {
           <a href="${paper.arxivUrl || `https://arxiv.org/abs/${paper.id}`}"
              target="_blank"
              rel="noopener"
-             class="btn-abstract"
+             class="btn-action btn-arxiv"
              title="View arXiv page">
             arXiv
           </a>
-          <button class="btn-save ${isSaved ? 'saved' : ''}"
+          <button class="btn-action btn-save ${isSaved ? 'saved' : ''}"
                   data-paper-id="${paper.id}"
                   title="${isSaved ? 'Unsave this paper' : 'Save this paper'}">
-            ${isSaved ? '★ Saved' : '☆ Save'}
+            ${isSaved ? 'Saved' : 'Save'}
           </button>
-          <button class="btn-remove"
+          <button class="btn-action btn-remove"
                   data-paper-id="${paper.id}"
                   title="Remove this paper">
             Remove

@@ -77,6 +77,28 @@
   background: var(--surface-elevated);
 }
 
+[data-theme="dark"] .filter-count {
+  background: var(--surface-elevated);
+}
+
+[data-theme="dark"] .new-category-input {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .new-category-input::placeholder {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .paper-card {
+  background: var(--surface);
+}
+
+[data-theme="dark"] .paper-card:hover {
+  border-color: var(--primary-light);
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.6;
@@ -458,7 +480,7 @@ button {
 .papers-grid {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 .paper-card {
@@ -508,52 +530,46 @@ button {
   flex-shrink: 0;
 }
 
-.btn-remove,
-.btn-abstract,
-.btn-save {
-  padding: 0.5rem 0.75rem;
+/* Action Buttons */
+.btn-action {
+  padding: 0.5rem 0.875rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
   text-decoration: none;
   color: var(--text-secondary);
-  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
-.btn-remove:hover {
-  border-color: #EF4444;
-  color: #EF4444;
-  background: #FEF2F2;
+.btn-action:hover {
   transform: translateY(-1px);
 }
 
-[data-theme="dark"] .btn-remove:hover {
-  background: rgba(239, 68, 68, 0.1);
-}
-
-.btn-abstract:hover {
+/* arXiv Button */
+.btn-arxiv:hover {
   border-color: var(--primary-color);
   color: var(--primary-color);
-  background: #EFF6FF;
-  transform: translateY(-1px);
+  background: rgba(59, 130, 246, 0.08);
 }
 
-[data-theme="dark"] .btn-abstract:hover {
-  background: rgba(96, 165, 250, 0.1);
+[data-theme="dark"] .btn-arxiv:hover {
+  background: rgba(96, 165, 250, 0.12);
 }
 
+/* Save Button */
 .btn-save:hover {
   border-color: var(--secondary-color);
   color: var(--secondary-color);
-  background: #ECFDF5;
-  transform: translateY(-1px);
+  background: rgba(16, 185, 129, 0.08);
 }
 
 [data-theme="dark"] .btn-save:hover {
-  background: rgba(52, 211, 153, 0.1);
+  background: rgba(52, 211, 153, 0.12);
 }
 
 .btn-save.saved {
@@ -565,7 +581,17 @@ button {
 .btn-save.saved:hover {
   background: #059669;
   border-color: #059669;
-  transform: translateY(-1px);
+}
+
+/* Remove Button */
+.btn-remove:hover {
+  border-color: var(--danger-color);
+  color: var(--danger-color);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+[data-theme="dark"] .btn-remove:hover {
+  background: rgba(239, 68, 68, 0.12);
 }
 
 .paper-meta {
@@ -709,6 +735,7 @@ button {
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
+  flex-wrap: wrap;
 }
 
 .page-button {
@@ -716,19 +743,23 @@ button {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s;
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .page-button:hover:not(:disabled) {
   border-color: var(--primary-color);
   color: var(--primary-color);
+  background: var(--surface-elevated);
 }
 
 .page-button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  color: var(--text-secondary);
 }
 
 .page-button.active {
@@ -737,8 +768,14 @@ button {
   border-color: var(--primary-color);
 }
 
+.page-button.active:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  color: white;
+}
+
 .page-info {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
   font-size: 0.9rem;
   color: var(--text-secondary);
 }
@@ -1094,4 +1131,42 @@ button {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* Toast Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Focus States for Accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Selection Color */
+::selection {
+  background: var(--primary-color);
+  color: white;
 }
