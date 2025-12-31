@@ -383,6 +383,52 @@ class SearchFilter {
 
     return counts;
   }
+
+  /**
+   * Re-categorize papers with custom keywords
+   * @param {Object} categoriesData - Categories with default keywords
+   * @param {Object} customKeywords - Custom keywords map {categoryId: [keywords]}
+   */
+  recategorizePapers(categoriesData, customKeywords) {
+    console.log('Re-categorizing papers with custom keywords...');
+
+    // Build combined keyword map
+    const keywordMap = {};
+    for (const category of categoriesData.categories) {
+      const defaultKeywords = category.keywords || [];
+      const custom = customKeywords[category.id] || [];
+      keywordMap[category.id] = [...defaultKeywords, ...custom];
+    }
+
+    let updatedCount = 0;
+
+    // Re-categorize each paper
+    for (const paper of this.papers) {
+      if (!paper.abstract && !paper.title) continue;
+
+      const searchText = `${paper.title} ${paper.abstract || ''}`.toLowerCase();
+      const newCategories = new Set(paper.categories || []);
+
+      // Check each category's keywords
+      for (const [categoryId, keywords] of Object.entries(keywordMap)) {
+        const matchCount = keywords.filter(kw =>
+          searchText.includes(kw.toLowerCase())
+        ).length;
+
+        // Add category if 2+ keywords match and not already present
+        if (matchCount >= 2 && !newCategories.has(categoryId)) {
+          newCategories.add(categoryId);
+          updatedCount++;
+        }
+      }
+
+      // Update paper categories
+      paper.categories = Array.from(newCategories);
+    }
+
+    console.log(`Updated ${updatedCount} category assignments`);
+    return updatedCount;
+  }
 }
 
 export default SearchFilter;

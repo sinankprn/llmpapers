@@ -103,6 +103,12 @@ class App {
     // Initialize search
     this.searchFilter.initializeSearch(index.papers);
 
+    // Apply custom keywords if they exist
+    if (Object.keys(this.customKeywords).length > 0) {
+      console.log('Applying saved custom keywords...');
+      this.searchFilter.recategorizePapers(this.categories, this.customKeywords);
+    }
+
     // Update header stats
     if (this.elements.totalPapers) {
       this.elements.totalPapers.textContent = index.meta.totalPapers.toLocaleString();
@@ -300,10 +306,17 @@ class App {
     this.customKeywords[categoryId].push(keyword);
     this.saveCustomKeywords();
 
+    // Re-categorize all papers with the new keyword
+    showToast('Re-categorizing papers...', 'info');
+    const updatedCount = this.searchFilter.recategorizePapers(this.categories, this.customKeywords);
+
     // Re-render legend
     this.renderLegend();
 
-    showToast(`Added "${keyword}" to ${categoryId}`, 'success');
+    // Re-apply filters to update the view
+    this.applyFiltersAndRender();
+
+    showToast(`Added "${keyword}" - ${updatedCount} new category assignments`, 'success');
   }
 
   /**
