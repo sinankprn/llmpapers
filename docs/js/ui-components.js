@@ -370,6 +370,78 @@ export function showNoResults(show, element) {
 }
 
 /**
+ * Render category legend with keywords
+ * @param {Object} categories - Categories data
+ * @param {Object} customKeywords - Custom keywords map {categoryId: [keywords]}
+ * @param {HTMLElement} container - Container element
+ * @param {Function} onAddKeyword - Callback when keyword is added
+ */
+export function renderCategoryLegend(categories, customKeywords, container, onAddKeyword) {
+  const html = categories.categories
+    .map(cat => {
+      const defaultKeywords = cat.keywords || [];
+      const custom = customKeywords[cat.id] || [];
+      const allKeywords = [...defaultKeywords, ...custom];
+
+      return `
+        <div class="legend-category">
+          <div class="legend-category-header">
+            <span class="category-tag ${cat.id}">${cat.name}</span>
+          </div>
+          <p class="legend-description">${cat.description}</p>
+          <div class="legend-keywords">
+            ${allKeywords.map(kw => {
+              const isCustom = custom.includes(kw);
+              return `<span class="keyword-tag ${isCustom ? 'custom' : ''}" title="${isCustom ? 'Custom keyword' : 'Default keyword'}">${kw}</span>`;
+            }).join('')}
+          </div>
+          <div class="add-keyword-form">
+            <input
+              type="text"
+              class="keyword-input"
+              placeholder="Add keyword..."
+              data-category="${cat.id}"
+            >
+            <button class="btn-add-keyword" data-category="${cat.id}" title="Add keyword">+</button>
+          </div>
+        </div>
+      `;
+    })
+    .join('');
+
+  container.innerHTML = html;
+
+  // Attach event listeners to add keyword buttons
+  container.querySelectorAll('.btn-add-keyword').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const categoryId = e.target.dataset.category;
+      const input = container.querySelector(`.keyword-input[data-category="${categoryId}"]`);
+      const keyword = input.value.trim().toLowerCase();
+
+      if (keyword && onAddKeyword) {
+        onAddKeyword(categoryId, keyword);
+        input.value = '';
+      }
+    });
+  });
+
+  // Also allow Enter key to add keyword
+  container.querySelectorAll('.keyword-input').forEach(input => {
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const categoryId = e.target.dataset.category;
+        const keyword = e.target.value.trim().toLowerCase();
+
+        if (keyword && onAddKeyword) {
+          onAddKeyword(categoryId, keyword);
+          e.target.value = '';
+        }
+      }
+    });
+  });
+}
+
+/**
  * Scroll to top of page
  */
 export function scrollToTop() {
@@ -419,6 +491,7 @@ export default {
   renderCategoryFilters,
   renderYearFilters,
   renderPagination,
+  renderCategoryLegend,
   updateResultsCount,
   setLoading,
   showNoResults,

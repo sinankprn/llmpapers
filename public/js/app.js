@@ -10,6 +10,7 @@ import {
   renderCategoryFilters,
   renderYearFilters,
   renderPagination,
+  renderCategoryLegend,
   updateResultsCount,
   setLoading,
   showNoResults,
@@ -24,6 +25,7 @@ class App {
     this.papersPerPage = 50;
     this.filteredPapers = [];
     this.categories = null;
+    this.customKeywords = this.loadCustomKeywords();
 
     // DOM elements
     this.elements = {
@@ -49,7 +51,9 @@ class App {
       viewAll: document.getElementById('view-all'),
       viewSaved: document.getElementById('view-saved'),
       viewRemoved: document.getElementById('view-removed'),
-      themeToggle: document.getElementById('theme-toggle')
+      themeToggle: document.getElementById('theme-toggle'),
+      toggleLegend: document.getElementById('toggle-legend'),
+      categoryLegend: document.getElementById('category-legend')
     };
 
     // Initialize theme
@@ -204,6 +208,99 @@ class App {
     this.elements.themeToggle.addEventListener('click', () => {
       this.toggleTheme();
     });
+
+    // Legend toggle
+    this.elements.toggleLegend.addEventListener('click', () => {
+      this.toggleCategoryLegend();
+    });
+  }
+
+  /**
+   * Load custom keywords from localStorage
+   */
+  loadCustomKeywords() {
+    try {
+      const keywords = JSON.parse(localStorage.getItem('customKeywords') || '{}');
+      return keywords;
+    } catch (error) {
+      console.error('Error loading custom keywords:', error);
+      return {};
+    }
+  }
+
+  /**
+   * Save custom keywords to localStorage
+   */
+  saveCustomKeywords() {
+    try {
+      localStorage.setItem('customKeywords', JSON.stringify(this.customKeywords));
+    } catch (error) {
+      console.error('Error saving custom keywords:', error);
+    }
+  }
+
+  /**
+   * Toggle category legend visibility
+   */
+  toggleCategoryLegend() {
+    const legend = this.elements.categoryLegend;
+    const button = this.elements.toggleLegend;
+    const toggleIcon = button.querySelector('.toggle-icon');
+    const toggleText = button.querySelector('span:last-child');
+
+    if (legend.style.display === 'none') {
+      legend.style.display = 'block';
+      toggleIcon.textContent = '▼';
+      toggleText.textContent = 'Hide Legend';
+
+      // Render the legend if not already rendered
+      if (!legend.hasChildNodes()) {
+        this.renderLegend();
+      }
+    } else {
+      legend.style.display = 'none';
+      toggleIcon.textContent = '▶';
+      toggleText.textContent = 'Show Legend';
+    }
+  }
+
+  /**
+   * Render category legend
+   */
+  renderLegend() {
+    if (!this.categories) return;
+
+    renderCategoryLegend(
+      this.categories,
+      this.customKeywords,
+      this.elements.categoryLegend,
+      (categoryId, keyword) => this.addKeyword(categoryId, keyword)
+    );
+  }
+
+  /**
+   * Add keyword to category
+   */
+  addKeyword(categoryId, keyword) {
+    // Initialize array if it doesn't exist
+    if (!this.customKeywords[categoryId]) {
+      this.customKeywords[categoryId] = [];
+    }
+
+    // Check if keyword already exists
+    if (this.customKeywords[categoryId].includes(keyword)) {
+      showToast('Keyword already exists', 'info');
+      return;
+    }
+
+    // Add keyword
+    this.customKeywords[categoryId].push(keyword);
+    this.saveCustomKeywords();
+
+    // Re-render legend
+    this.renderLegend();
+
+    showToast(`Added "${keyword}" to ${categoryId}`, 'success');
   }
 
   /**
