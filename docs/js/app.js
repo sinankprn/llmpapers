@@ -42,7 +42,13 @@ class App {
       pagination: document.getElementById('pagination'),
       blocklistCount: document.getElementById('blocklist-count'),
       exportBlocklist: document.getElementById('export-blocklist'),
-      clearBlocklist: document.getElementById('clear-blocklist')
+      clearBlocklist: document.getElementById('clear-blocklist'),
+      savedlistCount: document.getElementById('savedlist-count'),
+      exportSavedlist: document.getElementById('export-savedlist'),
+      clearSavedlist: document.getElementById('clear-savedlist'),
+      viewAll: document.getElementById('view-all'),
+      viewSaved: document.getElementById('view-saved'),
+      viewRemoved: document.getElementById('view-removed')
     };
   }
 
@@ -103,8 +109,9 @@ class App {
       });
     }
 
-    // Update blocklist count
+    // Update blocklist and savedlist counts
     this.updateBlocklistCount();
+    this.updateSavedlistCount();
 
     setLoading(false, this.elements.loading, this.elements.papersContainer);
   }
@@ -158,6 +165,35 @@ class App {
         this.applyFiltersAndRender();
         showToast('Blocklist cleared', 'success');
       }
+    });
+
+    // Export savedlist
+    this.elements.exportSavedlist.addEventListener('click', () => {
+      this.searchFilter.exportSavedlist();
+      showToast('Savedlist exported successfully', 'success');
+    });
+
+    // Clear savedlist
+    this.elements.clearSavedlist.addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear the entire savedlist?')) {
+        this.searchFilter.clearSavedlist();
+        this.updateSavedlistCount();
+        this.applyFiltersAndRender();
+        showToast('Savedlist cleared', 'success');
+      }
+    });
+
+    // View mode toggles
+    this.elements.viewAll.addEventListener('click', () => {
+      this.setViewMode('all');
+    });
+
+    this.elements.viewSaved.addEventListener('click', () => {
+      this.setViewMode('saved');
+    });
+
+    this.elements.viewRemoved.addEventListener('click', () => {
+      this.setViewMode('removed');
     });
   }
 
@@ -221,9 +257,15 @@ class App {
       this.elements.pagination.innerHTML = '';
     } else {
       showNoResults(false, this.elements.noResults);
-      renderPapers(pagePapers, this.elements.papersContainer, (paperId) => {
-        this.removePaper(paperId);
-      });
+      renderPapers(
+        pagePapers,
+        this.elements.papersContainer,
+        {
+          onSave: (paperId) => this.toggleSavePaper(paperId),
+          onRemove: (paperId) => this.removePaper(paperId)
+        },
+        this.searchFilter
+      );
 
       // Render pagination
       renderPagination(
@@ -257,11 +299,72 @@ class App {
   }
 
   /**
+   * Toggle save paper
+   * @param {string} paperId - Paper ID to save/unsave
+   */
+  toggleSavePaper(paperId) {
+    if (this.searchFilter.savedlist.has(paperId)) {
+      this.searchFilter.unsavePaper(paperId);
+      showToast('Paper unsaved', 'info');
+    } else {
+      this.searchFilter.savePaper(paperId);
+      showToast('Paper saved', 'success');
+    }
+    this.updateSavedlistCount();
+    this.applyFiltersAndRender();
+  }
+
+  /**
+   * Set view mode
+   * @param {string} mode - View mode ('all', 'saved', 'removed')
+   */
+  setViewMode(mode) {
+    this.searchFilter.setViewMode(mode);
+    this.currentPage = 1;
+    this.applyFiltersAndRender();
+    this.updateViewModeButtons(mode);
+
+    const modeNames = { all: 'All Papers', saved: 'Saved Papers', removed: 'Removed Papers' };
+    showToast(`Viewing: ${modeNames[mode]}`, 'info');
+  }
+
+  /**
+   * Update view mode button states
+   * @param {string} activeMode - Current active mode
+   */
+  updateViewModeButtons(activeMode) {
+    const buttons = {
+      all: this.elements.viewAll,
+      saved: this.elements.viewSaved,
+      removed: this.elements.viewRemoved
+    };
+
+    Object.entries(buttons).forEach(([mode, button]) => {
+      if (button) {
+        if (mode === activeMode) {
+          button.classList.add('active');
+        } else {
+          button.classList.remove('active');
+        }
+      }
+    });
+  }
+
+  /**
    * Update blocklist count display
    */
   updateBlocklistCount() {
     if (this.elements.blocklistCount) {
       this.elements.blocklistCount.textContent = this.searchFilter.blocklist.size;
+    }
+  }
+
+  /**
+   * Update savedlist count display
+   */
+  updateSavedlistCount() {
+    if (this.elements.savedlistCount) {
+      this.elements.savedlistCount.textContent = this.searchFilter.savedlist.size;
     }
   }
 }

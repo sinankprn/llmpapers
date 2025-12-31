@@ -11,9 +11,11 @@ class SearchFilter {
       searchQuery: '',
       categories: new Set(),
       years: new Set(),
-      sortBy: 'date-desc'
+      sortBy: 'date-desc',
+      viewMode: 'all' // 'all', 'saved', 'removed'
     };
     this.blocklist = this.loadBlocklist();
+    this.savedlist = this.loadSavedlist();
   }
 
   /**
@@ -54,6 +56,20 @@ class SearchFilter {
   }
 
   /**
+   * Load savedlist from localStorage
+   * @returns {Set} Set of saved paper IDs
+   */
+  loadSavedlist() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('savedlist') || '[]');
+      return new Set(saved);
+    } catch (error) {
+      console.error('Error loading savedlist:', error);
+      return new Set();
+    }
+  }
+
+  /**
    * Save blocklist to localStorage
    */
   saveBlocklist() {
@@ -61,6 +77,17 @@ class SearchFilter {
       localStorage.setItem('blocklist', JSON.stringify(Array.from(this.blocklist)));
     } catch (error) {
       console.error('Error saving blocklist:', error);
+    }
+  }
+
+  /**
+   * Save savedlist to localStorage
+   */
+  saveSavedlist() {
+    try {
+      localStorage.setItem('savedlist', JSON.stringify(Array.from(this.savedlist)));
+    } catch (error) {
+      console.error('Error saving savedlist:', error);
     }
   }
 
@@ -91,6 +118,35 @@ class SearchFilter {
   }
 
   /**
+   * Add paper to savedlist
+   * @param {string} paperId - Paper ID to save
+   */
+  savePaper(paperId) {
+    this.savedlist.add(paperId);
+    // Remove from blocklist if it was there
+    this.blocklist.delete(paperId);
+    this.saveSavedlist();
+    this.saveBlocklist();
+  }
+
+  /**
+   * Remove paper from savedlist
+   * @param {string} paperId - Paper ID to unsave
+   */
+  unsavePaper(paperId) {
+    this.savedlist.delete(paperId);
+    this.saveSavedlist();
+  }
+
+  /**
+   * Clear all savedlist
+   */
+  clearSavedlist() {
+    this.savedlist.clear();
+    this.saveSavedlist();
+  }
+
+  /**
    * Export blocklist as JSON file
    */
   exportBlocklist() {
@@ -109,6 +165,27 @@ class SearchFilter {
     const a = document.createElement('a');
     a.href = url;
     a.download = `blocklist-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  /**
+   * Export savedlist as JSON file
+   */
+  exportSavedlist() {
+    const saved = Array.from(this.savedlist).map(id => ({
+      id,
+      savedAt: new Date().toISOString()
+    }));
+
+    const blob = new Blob([JSON.stringify({ saved }, null, 2)], {
+      type: 'application/json'
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `savedlist-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -154,6 +231,14 @@ class SearchFilter {
   }
 
   /**
+   * Set view mode
+   * @param {string} viewMode - View mode ('all', 'saved', 'removed')
+   */
+  setViewMode(viewMode) {
+    this.filters.viewMode = viewMode;
+  }
+
+  /**
    * Reset all filters
    */
   resetFilters() {
@@ -161,6 +246,7 @@ class SearchFilter {
     this.filters.categories.clear();
     this.filters.years.clear();
     this.filters.sortBy = 'date-desc';
+    // Don't reset viewMode - user wants to stay in their current view
   }
 
   /**
@@ -170,8 +256,22 @@ class SearchFilter {
   applyFilters() {
     let results = this.papers;
 
-    // Apply blocklist filter
-    results = results.filter(paper => !this.blocklist.has(paper.id));
+    // Apply view mode filter first
+    switch (this.filters.viewMode) {
+      case 'saved':
+        // Only show saved papers
+        results = results.filter(paper => this.savedlist.has(paper.id));
+        break;
+      case 'removed':
+        // Only show removed papers
+        results = results.filter(paper => this.blocklist.has(paper.id));
+        break;
+      case 'all':
+      default:
+        // Show all papers except removed ones
+        results = results.filter(paper => !this.blocklist.has(paper.id));
+        break;
+    }
 
     // Apply category filter
     if (this.filters.categories.size > 0) {
@@ -244,7 +344,9 @@ class SearchFilter {
       categoriesActive: this.filters.categories.size,
       yearsActive: this.filters.years.size,
       blockedCount: this.blocklist.size,
-      sortBy: this.filters.sortBy
+      savedCount: this.savedlist.size,
+      sortBy: this.filters.sortBy,
+      viewMode: this.filters.viewMode
     };
   }
 

@@ -28,10 +28,11 @@ function truncate(text, maxLength) {
 /**
  * Render a single paper card
  * @param {Object} paper - Paper object
- * @param {Function} onRemove - Callback when remove button clicked
+ * @param {Object} callbacks - Callbacks object {onSave, onRemove, isSaved}
  * @returns {string} HTML string
  */
-export function renderPaperCard(paper, onRemove) {
+export function renderPaperCard(paper, callbacks) {
+  const { onSave, onRemove, isSaved } = callbacks;
   const categoriesHtml = paper.categories
     .map(cat => `<span class="category-tag ${cat}">${cat.replace(/-/g, ' ')}</span>`)
     .join('');
@@ -53,6 +54,11 @@ export function renderPaperCard(paper, onRemove) {
              title="View PDF">
             PDF
           </a>
+          <button class="btn-save ${isSaved ? 'saved' : ''}"
+                  data-paper-id="${paper.id}"
+                  title="${isSaved ? 'Unsave this paper' : 'Save this paper'}">
+            ${isSaved ? '★ Saved' : '☆ Save'}
+          </button>
           <button class="btn-remove"
                   data-paper-id="${paper.id}"
                   title="Remove this paper">
@@ -83,23 +89,37 @@ export function renderPaperCard(paper, onRemove) {
  * Render papers grid
  * @param {Array} papers - Papers to render
  * @param {HTMLElement} container - Container element
- * @param {Function} onRemove - Callback when remove button clicked
+ * @param {Object} callbacks - Callbacks object {onSave, onRemove}
+ * @param {Object} searchFilter - SearchFilter instance for checking saved state
  */
-export function renderPapers(papers, container, onRemove) {
+export function renderPapers(papers, container, callbacks, searchFilter) {
   if (papers.length === 0) {
     container.innerHTML = '';
     return;
   }
 
-  const html = papers.map(paper => renderPaperCard(paper, onRemove)).join('');
+  const html = papers.map(paper => {
+    const isSaved = searchFilter.savedlist.has(paper.id);
+    return renderPaperCard(paper, { ...callbacks, isSaved });
+  }).join('');
   container.innerHTML = html;
+
+  // Attach event listeners to save buttons
+  container.querySelectorAll('.btn-save').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const paperId = e.target.dataset.paperId;
+      if (paperId && callbacks.onSave) {
+        callbacks.onSave(paperId);
+      }
+    });
+  });
 
   // Attach event listeners to remove buttons
   container.querySelectorAll('.btn-remove').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const paperId = e.target.dataset.paperId;
-      if (paperId && onRemove) {
-        onRemove(paperId);
+      if (paperId && callbacks.onRemove) {
+        callbacks.onRemove(paperId);
       }
     });
   });

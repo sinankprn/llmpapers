@@ -290,6 +290,36 @@ button {
   box-shadow: var(--shadow);
 }
 
+/* View Mode Tabs */
+.view-mode-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.view-mode-tab {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.view-mode-tab:hover {
+  color: var(--primary-color);
+}
+
+.view-mode-tab.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
 .results-header {
   display: flex;
   justify-content: space-between;
@@ -376,7 +406,8 @@ button {
 }
 
 .btn-remove,
-.btn-pdf {
+.btn-pdf,
+.btn-save {
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -398,6 +429,23 @@ button {
   border-color: var(--primary-color);
   color: var(--primary-color);
   background: #EFF6FF;
+}
+
+.btn-save:hover {
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+  background: #ECFDF5;
+}
+
+.btn-save.saved {
+  border-color: var(--secondary-color);
+  color: white;
+  background: var(--secondary-color);
+}
+
+.btn-save.saved:hover {
+  background: #059669;
+  border-color: #059669;
 }
 
 .paper-meta {

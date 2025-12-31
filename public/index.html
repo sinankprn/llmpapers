@@ -69,6 +69,15 @@
           <button id="reset-filters" class="reset-button">Reset All Filters</button>
         </div>
 
+        <div class="filter-section savedlist-section">
+          <h2 class="filter-title">Savedlist</h2>
+          <p class="filter-description">
+            Saved papers: <strong id="savedlist-count">0</strong>
+          </p>
+          <button id="export-savedlist" class="export-button">Export Savedlist</button>
+          <button id="clear-savedlist" class="clear-button">Clear Savedlist</button>
+        </div>
+
         <div class="filter-section blocklist-section">
           <h2 class="filter-title">Blocklist</h2>
           <p class="filter-description">
@@ -80,6 +89,12 @@
       </aside>
 
       <section class="content">
+        <div class="view-mode-tabs">
+          <button id="view-all" class="view-mode-tab active">All Papers</button>
+          <button id="view-saved" class="view-mode-tab">Saved Papers</button>
+          <button id="view-removed" class="view-mode-tab">Removed Papers</button>
+        </div>
+
         <div class="results-header">
           <div class="results-info">
             Showing <strong id="results-count">0</strong> papers
