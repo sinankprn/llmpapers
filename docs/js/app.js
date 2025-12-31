@@ -48,8 +48,12 @@ class App {
       clearSavedlist: document.getElementById('clear-savedlist'),
       viewAll: document.getElementById('view-all'),
       viewSaved: document.getElementById('view-saved'),
-      viewRemoved: document.getElementById('view-removed')
+      viewRemoved: document.getElementById('view-removed'),
+      themeToggle: document.getElementById('theme-toggle')
     };
+
+    // Initialize theme
+    this.initializeTheme();
   }
 
   /**
@@ -195,6 +199,42 @@ class App {
     this.elements.viewRemoved.addEventListener('click', () => {
       this.setViewMode('removed');
     });
+
+    // Theme toggle
+    this.elements.themeToggle.addEventListener('click', () => {
+      this.toggleTheme();
+    });
+  }
+
+  /**
+   * Initialize theme from localStorage
+   */
+  initializeTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    this.updateThemeIcon(savedTheme);
+  }
+
+  /**
+   * Toggle between light and dark theme
+   */
+  toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    this.updateThemeIcon(newTheme);
+  }
+
+  /**
+   * Update theme toggle icon
+   */
+  updateThemeIcon(theme) {
+    const icon = this.elements.themeToggle.querySelector('.theme-icon');
+    if (icon) {
+      icon.textContent = theme === 'light' ? '🌙' : '☀️';
+    }
   }
 
   /**

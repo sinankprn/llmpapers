@@ -95,7 +95,9 @@ function buildIndex(papers, blocklist) {
       id: paper.id,
       title: paper.title,
       authors: paper.authors.map(a => a.name),
+      abstract: paper.abstract || '',
       publishedDate: paper.publishedDate,
+      arxivUrl: paper.arxivUrl || `https://arxiv.org/abs/${paper.id}`,
       categories: paper.categories || [],
       year: parseInt(paper.publishedDate.substring(0, 4))
     }));

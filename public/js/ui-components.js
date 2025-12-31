@@ -40,19 +40,22 @@ export function renderPaperCard(paper, callbacks) {
   const authorsText = paper.authors.slice(0, 5).join(', ') +
     (paper.authors.length > 5 ? ` et al. (${paper.authors.length} authors)` : '');
 
+  const abstractPreview = paper.abstract ? truncate(paper.abstract, 200) : '';
+  const hasAbstract = paper.abstract && paper.abstract.length > 0;
+
   return `
     <article class="paper-card" data-paper-id="${paper.id}">
       <div class="paper-header">
         <h3 class="paper-title">
-          <a href="${paper.arxivUrl}" target="_blank" rel="noopener">${paper.title}</a>
+          <a href="https://arxiv.org/pdf/${paper.id}.pdf" target="_blank" rel="noopener">${paper.title}</a>
         </h3>
         <div class="paper-actions">
-          <a href="https://arxiv.org/pdf/${paper.id}.pdf"
+          <a href="${paper.arxivUrl || `https://arxiv.org/abs/${paper.id}`}"
              target="_blank"
              rel="noopener"
-             class="btn-pdf"
-             title="View PDF">
-            PDF
+             class="btn-abstract"
+             title="View arXiv page">
+            arXiv
           </a>
           <button class="btn-save ${isSaved ? 'saved' : ''}"
                   data-paper-id="${paper.id}"
@@ -81,6 +84,18 @@ export function renderPaperCard(paper, callbacks) {
       </div>
 
       ${categoriesHtml ? `<div class="paper-categories">${categoriesHtml}</div>` : ''}
+
+      ${hasAbstract ? `
+        <div class="paper-abstract-section">
+          <button class="btn-toggle-abstract" data-paper-id="${paper.id}">
+            <span class="toggle-icon">▶</span>
+            <span class="toggle-text">Show Abstract</span>
+          </button>
+          <div class="paper-abstract" style="display: none;">
+            ${paper.abstract}
+          </div>
+        </div>
+      ` : ''}
     </article>
   `;
 }
@@ -120,6 +135,30 @@ export function renderPapers(papers, container, callbacks, searchFilter) {
       const paperId = e.target.dataset.paperId;
       if (paperId && callbacks.onRemove) {
         callbacks.onRemove(paperId);
+      }
+    });
+  });
+
+  // Attach event listeners to toggle abstract buttons
+  container.querySelectorAll('.btn-toggle-abstract').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const button = e.currentTarget;
+      const paperId = button.dataset.paperId;
+      const paperCard = button.closest('.paper-card');
+      const abstractDiv = paperCard.querySelector('.paper-abstract');
+      const toggleIcon = button.querySelector('.toggle-icon');
+      const toggleText = button.querySelector('.toggle-text');
+
+      if (abstractDiv.style.display === 'none') {
+        abstractDiv.style.display = 'block';
+        toggleIcon.textContent = '▼';
+        toggleText.textContent = 'Hide Abstract';
+        button.classList.add('expanded');
+      } else {
+        abstractDiv.style.display = 'none';
+        toggleIcon.textContent = '▶';
+        toggleText.textContent = 'Show Abstract';
+        button.classList.remove('expanded');
       }
     });
   });
