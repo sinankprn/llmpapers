@@ -1,0 +1,25 @@
+{
+  "name": "llmpapers",
+  "version": "1.0.0",
+  "description": "arXiv LLM Papers Collection - Automated paper fetching and GitHub Pages hosting",
+  "type": "module",
+  "scripts": {
+    "fetch": "node scripts/update-full.js",
+    "fetch:incremental": "node scripts/update-incremental.js",
+    "build-index": "node scripts/build-index.js",
+    "categorize": "node scripts/categorize-papers.js",
+    "deploy": "cp -r data public/",
+    "serve": "cd public && python -m http.server 8000",
+    "test": "node scripts/fetch-arxiv.js"
+  },
+  "keywords": ["arxiv", "llm", "papers", "research"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "date-fns": "^4.1.0",
+    "fast-xml-parser": "^5.3.3",
+    "node-fetch": "^2.7.0",
+    "p-limit": "^7.2.0"
+  }
+}
