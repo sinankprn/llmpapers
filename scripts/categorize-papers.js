@@ -11,7 +11,7 @@ import chalk from 'chalk';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const CATEGORIES_PATH = path.join(__dirname, '..', 'data', 'categories.json');
+const CATEGORIES_PATH = path.join(__dirname, '..', 'public', 'data', 'categories.json');
 const MIN_KEYWORD_MATCHES = 1; // Minimum keyword matches to assign a category
 
 /**

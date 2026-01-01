@@ -1,4 +1,5 @@
 node_modules/
+dist/
 .env
 *.log
 .DS_Store
@@ -7,7 +8,3 @@ node_modules/
 *.swp
 *.swo
 .claude/
-
-# Data is managed in root /data folder
-# Copy to public/data for deployment
-public/data/

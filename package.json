@@ -4,22 +4,39 @@
   "description": "arXiv LLM Papers Collection - Automated paper fetching and GitHub Pages hosting",
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "fetch": "node scripts/update-full.js",
     "fetch:incremental": "node scripts/update-incremental.js",
     "build-index": "node scripts/build-index.js",
     "categorize": "node scripts/categorize-papers.js",
-    "deploy": "cp -r data public/",
-    "serve": "cd public && python -m http.server 8000",
     "test": "node scripts/fetch-arxiv.js"
   },
-  "keywords": ["arxiv", "llm", "papers", "research"],
+  "keywords": [
+    "arxiv",
+    "llm",
+    "papers",
+    "research"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "chalk": "^4.1.2",
     "date-fns": "^4.1.0",
     "fast-xml-parser": "^5.3.3",
+    "fuse.js": "^7.1.0",
     "node-fetch": "^2.7.0",
-    "p-limit": "^7.2.0"
+    "p-limit": "^7.2.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@vitejs/plugin-react": "^5.1.2",
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
+    "vite": "^7.3.0"
   }
 }
