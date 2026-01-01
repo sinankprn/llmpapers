@@ -15,70 +15,71 @@ const rateLimiter = new RateLimiter(3000); // 3 seconds between requests
 
 /**
  * Comprehensive search queries for LLM applications and agents
+ * Searches both title and abstract for better coverage
  */
 export const SEARCH_QUERIES = [
   {
-    query: 'abs:"large language model" AND (abs:application OR abs:applications)',
+    query: '(ti:"large language model" OR abs:"large language model") AND (ti:application OR ti:applications OR abs:application OR abs:applications)',
     description: 'General LLM applications',
     category: 'applications'
   },
   {
-    query: 'abs:"LLM agent" OR abs:"language model agent"',
+    query: 'ti:"LLM agent" OR ti:"language model agent" OR abs:"LLM agent" OR abs:"language model agent"',
     description: 'LLM-based agents',
     category: 'agents'
   },
   {
-    query: 'abs:"autonomous agent" AND abs:"language model"',
+    query: '(ti:"autonomous agent" OR abs:"autonomous agent") AND (ti:"language model" OR abs:"language model")',
     description: 'Autonomous LLM agents',
     category: 'agents'
   },
   {
-    query: 'abs:"language model" AND (abs:reasoning OR abs:"chain of thought")',
+    query: '(ti:"language model" OR abs:"language model") AND (ti:reasoning OR ti:"chain of thought" OR abs:reasoning OR abs:"chain of thought")',
     description: 'LLM reasoning capabilities',
     category: 'reasoning'
   },
   {
-    query: 'abs:"large language model" AND abs:planning',
+    query: '(ti:"large language model" OR abs:"large language model") AND (ti:planning OR abs:planning)',
     description: 'LLM planning systems',
     category: 'planning'
   },
   {
-    query: 'abs:"language model" AND (abs:"tool use" OR abs:"tool usage" OR abs:"function calling")',
+    query: '(ti:"language model" OR abs:"language model") AND (ti:"tool use" OR ti:"tool usage" OR ti:"function calling" OR abs:"tool use" OR abs:"tool usage" OR abs:"function calling")',
     description: 'LLMs using tools',
     category: 'tool-use'
   },
   {
-    query: 'abs:"multi-agent" AND abs:"language model"',
+    query: '(ti:"multi-agent" OR abs:"multi-agent") AND (ti:"language model" OR abs:"language model")',
     description: 'Multi-agent LLM systems',
     category: 'multi-agent'
   },
   {
-    query: 'abs:"retrieval augmented generation" OR abs:"RAG"',
+    query: 'ti:"retrieval augmented generation" OR ti:"RAG" OR abs:"retrieval augmented generation" OR abs:"RAG"',
     description: 'Retrieval-augmented generation',
     category: 'rag'
   },
   {
-    query: 'abs:"prompt engineering" OR abs:"prompt design"',
+    query: 'ti:"prompt engineering" OR ti:"prompt design" OR abs:"prompt engineering" OR abs:"prompt design"',
     description: 'Prompt engineering techniques',
     category: 'prompting'
   },
   {
-    query: 'abs:"in-context learning" OR abs:"few-shot learning" AND abs:"language model"',
+    query: '(ti:"in-context learning" OR ti:"few-shot learning" OR abs:"in-context learning" OR abs:"few-shot learning") AND (ti:"language model" OR abs:"language model")',
     description: 'In-context learning',
     category: 'learning'
   },
   {
-    query: 'abs:"language model" AND (abs:coding OR abs:"code generation")',
+    query: '(ti:"language model" OR abs:"language model") AND (ti:coding OR ti:"code generation" OR abs:coding OR abs:"code generation")',
     description: 'LLMs for coding',
     category: 'code-generation'
   },
   {
-    query: 'abs:"language model" AND (abs:robot OR abs:robotics)',
+    query: '(ti:"language model" OR abs:"language model") AND (ti:robot OR ti:robotics OR abs:robot OR abs:robotics)',
     description: 'LLMs in robotics',
     category: 'robotics'
   },
   {
-    query: 'abs:"language model" AND (abs:benchmark OR abs:evaluation) AND (abs:agent OR abs:application)',
+    query: '(ti:"language model" OR abs:"language model") AND (ti:benchmark OR ti:evaluation OR abs:benchmark OR abs:evaluation) AND (ti:agent OR ti:application OR abs:agent OR abs:application)',
     description: 'LLM application benchmarks',
     category: 'evaluation'
   }
