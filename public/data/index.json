@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastUpdated": "2026-10-18T07:50:48.399Z",
-    "totalPapers": 52725,
+    "lastUpdated": "2026-10-19T07:14:29.630Z",
+    "totalPapers": 52742,
     "categories": [
       "agents",
       "code-generation",
@@ -25,6 +25,329 @@
     ]
   },
   "papers": [
+    {
+      "id": "2610.23618",
+      "title": "ThetreStageAI: Multi-View Retrieval-Augmented Generation for Structured Bengali Theatre Production Planning",
+      "authors": [
+        "Md. Mehedi Hasan Naeem",
+        "Mst. Kamrunnahar Ruma",
+        "Shakila Sultana",
+        "Nafiza Anjum",
+        "Nasreen Jannatun Nemu",
+        "Md. Sujan Ali"
+      ],
+      "abstract": "Staging a theatre performance requires coordinating dialogue, actor movement, stage directions, lighting focus, cue timing, and equipment constraints within the same production plan. This work presents ThetreStageAI, a retrieval augmented framework for structured Bengali theatre production planning. Rather than retrieving from one mixed corpus, the system maintains separate scene, actor-blocking, and lighting views. Bengali text is embedded with BGE-M3 and indexed in view-specific Qdrant collections. Retrieved references are combined with a production brief and passed to Gemini, which generates schema-constrained JSON containing characters, scenes, dialogue, stage directions, blocking, lighting, and optional sound cues. Structural and semantic checks are applied before acceptance, with at most one constrained repair attempt. We also construct a human-guided, LLM-assisted synthetic dataset of 500 short Bengali theatre records that expands to 1,500 retrieval documents. Dataset diagnostics confirm consistent identifiers and valid lighting fields while also revealing substantial dialogue repetition. A paired camera-ready evaluation compares single-combined and full multi-view retrieval under matched settings. The source code, dataset, and evaluation materials are publicly available.",
+      "publishedDate": "2026-10-16T15:29:20Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.23618",
+      "categories": [
+        "rag",
+        "planning",
+        "code-generation",
+        "evaluation"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.23588",
+      "title": "Enhancing RAG-based Medical VQA with Gated Multimodal Representations",
+      "authors": [
+        "Daniela Jimenez-Pano",
+        "Hugo Jair Escalante",
+        "Delia Irazú Hernández-Farías"
+      ],
+      "abstract": "Medical Vision-Language Models (Med-LVLMs) have shown strong performance in Medical Visual Question Answering (MVQA), yet they may still produce factually inconsistent responses. Retrieval-Augmented Generation (RAG) can mitigate this issue by incorporating external clinical evidence; however, retrieval is often guided by a single modality, potentially overlooking the joint semantics of medical images and clinical questions. We introduce a multimodal RAG framework that learns a joint query representation through a Gated Multimodal Unit, enabling evidence retrieval to leverage information from both modalities while keeping the underlying Med-LVLM frozen. We evaluate the proposed approach on benchmark datasets. Results show that the multimodal query representation consistently outperforms a reference Med-LVLM and remains competitive with state-of-the-art methods. Our findings demonstrate the potential of multimodal query representations for more effective evidence retrieval in Medical VQA.",
+      "publishedDate": "2026-10-16T15:07:33Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.23588",
+      "categories": [
+        "rag",
+        "evaluation"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.23534",
+      "title": "From Billion-Scale to Million-Scale Language Models: Operational Capabilities for Embedded Post-Exploitation",
+      "authors": [
+        "Gabriel Hortea",
+        "Simon Pietro Romano",
+        "Juan Tapiador",
+        "Mario Varlese"
+      ],
+      "abstract": "Small Language Models (SLMs) are increasingly attractive for resource-constrained environments due to their low computational footprint. These characteristics also make them candidates for future autonomous malware, where connectivity, latency, privacy, or operational constraints may preclude cloud-based inference. Yet the ability of ultra-compact models to support malware during post-exploitation remains poorly understood. We systematically evaluate seven open-source SLMs (20M-1.5B parameters) on two post-exploitation code-generation tasks: Directory Enumeration and Backdoor Generation. We compare Python (high-resource) and Lua (low-resource) across prompting strategies, task formulations, iterative reasoning, grammar-constrained decoding, and execution-feedback loops. Results show that offensive code-generation capabilities do not increase linearly with model size. Successful execution depends on the interaction of model capacity, task formulation, and prompting strategy, with task formulation exerting a greater influence than prompt engineering alone. Algorithmic formulation combined with few-shot prompting enables Qwen2.5-Coder 1.5B to reach Pass@5 of 100% in both Python and Lua for Directory Enumeration, 100% in Python for Backdoor Generation, and 99.2% in Lua. Although the evaluated models remain too computationally demanding for widespread deployment in contemporary malware, rapid progress in compact models may reduce this barrier. These findings help anticipate AI-assisted malware and inform future countermeasures.",
+      "publishedDate": "2026-10-16T14:33:17Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.23534",
+      "categories": [
+        "prompting",
+        "code-generation",
+        "agents",
+        "tool-use",
+        "reasoning"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.23511",
+      "title": "LocalIntent: Outcome-Specific Structured Generation for Backend-Compatible Smart Building Automation with Local LLMs",
+      "authors": [
+        "Tianyang Liu",
+        "Jiayue Wang",
+        "Zhanhao Cheng",
+        "Changyang Wang",
+        "Shaoshu Zhu",
+        "Zhenghao Wu",
+        "Hadi Tabatabaee Malazi"
+      ],
+      "abstract": "Locally deployed large language models (LLMs) can reduce reliance on remote cloud services for natural language smart building automation, but backend-facing processing requires correct outcome selection, alignment with local capabilities, and valid structured outputs. We investigate whether a complete outcome-specific prompting design improves compact-model outputs beyond generic route-then-generate prompting. The proposed LocalIntent approach routes requests to ordinary or persistent-rule branches: the former produces commands, clarifications, or rejections, while the latter generates trigger-action rules, followed by deterministic validation. We evaluate four locally executed Gemma and Qwen models spanning 2B-9B parameters on 101 non-persistent and 54 persistent-rule records, comparing Monolithic prompting, generic two-stage prompting, LocalIntent, and validation-guided repair. Across the evaluated datasets, LocalIntent achieves higher intent understanding, device identification, and action/parameter correctness than generic two-stage prompting, while clarification/mode correctness remains model-dependent. The largest gains occur for rules, where LocalIntent improves intent understanding from 26.4% to 80.6%, device identification from 59.3% to 84.7%, rule-mode correctness from 49.1% to 98.6%, and action/parameter correctness from 5.6% to 44.9%. For non-persistent requests, pooled gains are smaller: intent understanding increases from 39.6% to 53.2%, and action/parameter correctness from 30.7% to 42.8%.",
+      "publishedDate": "2026-10-16T14:19:22Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.23511",
+      "categories": [
+        "prompting"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.23232",
+      "title": "PrairieFire: Igniting High-Throughput Updates in Large-Scale Approximate Nearest Neighbor Search",
+      "authors": [
+        "Yuchen Huang",
+        "Baiteng Ma",
+        "Yiping Sun",
+        "Xiao Chen",
+        "Rui Ma",
+        "Yue Chen",
+        "Jinwei Zhang",
+        "Xiaocheng Zhong",
+        "Zhiyong Wang",
+        "Yao Hu",
+        "Erci Xu",
+        "Chuliang Weng"
+      ],
+      "abstract": "Arrays of modern NVMe SSDs are approaching memory in terms of bandwidth while offering much lower cost per gigabyte. Hence, approximate nearest neighbor search (ANNS) for billion-scale vectors in applications such as recommendation, search, and retrieval-augmented generation increasingly runs on SSD-based systems. Unfortunately, due to the limited update throughput of existing SSD-based solutions, the indexed corpus cannot keep pace with continuous modifications to data and embedding models, thus hindering broader deployment across more scenarios and larger scales. The bottleneck lies in CPU-intensive update paths, where foreground insertions incur frequent SSD accesses and background reassignments repeatedly relocate each vector, making high update throughput difficult to achieve even by exhausting available hardware. In this paper, using buffered updates and batched local rebuilds, we develop PrairieFire with cascaded adjustments, concurrency control, and CPU-GPU-SSD cooperation. These co-designs avoid frequent SSD accesses in foreground updates and heavy background reassignments, achieving high update throughput while maintaining excellent search performance. Evaluations show that, compared with state-of-the-art systems, PrairieFire can sustain approximately 3-35x update throughput while maintaining approximately 3-5x search throughput simultaneously. It also achieves approximately 1.5-8.7x cost efficiency. PrairieFire has been deployed in RedNote's production environments for two months, improving business metrics by higher freshness without frequent index rebuilds.",
+      "publishedDate": "2026-10-16T10:01:44Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.23232",
+      "categories": [
+        "evaluation",
+        "rag"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.23226",
+      "title": "Characterising and Analysing Retrieval-Augmented Generation Techniques",
+      "authors": [
+        "Emmanuel Igbekele",
+        "Olawande Daramola"
+      ],
+      "abstract": "The advent of Large Language Models (LLMs) across many application domains has increased the need for Retrieval-Augmented Generation (RAG) to reduce hallucinations and improve LLM performance. Thus far, several RAG techniques with impressive features and capabilities have been proposed in the literature, making it a herculean task to select the most appropriate RAG techniques for specific problem scenarios. Thus, we propose a conceptual framework comprising main dimensions and sub-dimensions for characterising (defining \"what it is\") and analysing (defining \"how well it does\") existing RAG techniques. The conceptual framework was developed through a qualitative analysis of the attributes of RAG techniques reported in the literature. It can serve as a pre-empirical filtering mechanism for researchers and practitioners in selecting the highest-fit RAG candidates that meet specific user and task requirements before empirical benchmarking of RAG techniques, which can be computationally and financially expensive.",
+      "publishedDate": "2026-10-16T09:55:31Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.23226",
+      "categories": [
+        "rag",
+        "evaluation"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.23205",
+      "title": "MAS-Bai: Linguistically Informed Adaptive Multi-Agent Translation for Bowen-Script Bai",
+      "authors": [
+        "Jingting Zheng",
+        "Hong Ren",
+        "Yuehan Cui",
+        "Shaolin Zhu",
+        "Deyi Xiong"
+      ],
+      "abstract": "Large Language Models (LLMs) remain unreliable for extremely low-resource languages whose writing systems conflict with high-resource pretraining priors. We study Bai-Chinese translation in the Bowen script, where Chinese characters are frequently borrowed phonetically rather than semantically, causing severe literal-translation hallucinations. We propose MAS-Bai, a linguistically informed adaptive multi-agent framework for Bowen-script Bai-Chinese translation. MAS-Bai routes each input through either a lightweight retrieval-translation path or a deeper philological path with etymological and syntactic agents, and uses cycle-consistency with a lightweight reverse translator as an inference-time reliability signal. We construct a 6,536-sentence Bai-Chinese corpus and evaluate on a 1,536-sentence test set. MAS-Bai achieves 16.23 BLEU and 62.15 COMET, improving over Standard RAG by 8.11 BLEU and 6.85 COMET. Forward LoRA, expert ablations and controlled routing experiments distinguish the roles of supervised adaptation, Bai-specific expertise and conditional routing. The largest gains occur on Bowen phonetic loans and divergent Bai word order, while human evaluation and reverse-verifier analyses support the automatic results.",
+      "publishedDate": "2026-10-16T09:43:32Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.23205",
+      "categories": [
+        "rag",
+        "agents",
+        "multi-agent",
+        "evaluation"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.23082",
+      "title": "The Ethics of Prompt Engineering",
+      "authors": [
+        "Federico Germani",
+        "Giovanni Spitale"
+      ],
+      "abstract": "Prompt engineering is commonly understood as a technical practice aimed at eliciting useful, accurate, and appropriately structured outputs from large language models (LLMs). Yet prompts do more than optimize model performance: they shape what information is elicited, which assumptions are introduced, and which perspectives are privileged. In this paper, we argue that prompting should therefore be understood as an epistemic and normative act. We distinguish between two conceptions of prompting: knowledge generation, in which the model is implicitly treated as an epistemic authority, and knowledge injection, in which users provide relevant knowledge, evidence, and context that the model can organize, articulate, and extend. We contend that the latter provides a more appropriate model for responsible LLM use, since prompting cannot substitute for subject-matter expertise or the critical evaluation of model outputs. At the same time, prompts inevitably inject values, intentions, and assumptions into the generation process. Building on these premises, we propose five principles for responsible prompting: epistemic humility, explicit engagement with uncertainty and epistemic underdetermination, source sensitivity, avoidance of deceptive framing, and recognition of model limitations and appropriate task allocation. We further argue that responsibility for AI-generated outputs is distributed across users, developers, institutions, and societies, and that some applications cannot be rendered ethical through better prompting alone.",
+      "publishedDate": "2026-10-16T07:52:18Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.23082",
+      "categories": [
+        "prompting",
+        "evaluation"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.22873",
+      "title": "Stealthy Poisoning Attacks via Reused KV Cache of Reasoning",
+      "authors": [
+        "L. Zhu",
+        "Y. Jung",
+        "S. Szyller"
+      ],
+      "abstract": "Modern large language model (LLM) systems reuse key-value (KV) caches to accelerate inference. Recent work has shown that reusing KV caches from reasoning traces can also improve task performance, similar to retrieval-augmented generation (RAG). We demonstrate that this form of KV cache reuse introduces new poisoning vulnerabilities. We propose R$^2$ECAP (Reused Reasoning-Cache Poisoning), a black-box attack that plants poisoned reasoning traces solely through interactions with a system's chat interface. R$^2$ECAP constructs two traces: a preceding trace that steers the model toward an adversarial target and a retained trace that carries this target. Because the retained trace is generated conditioned on the preceding trace, its KV cache preserves residual adversarial influence, even after the preceding trace and its cache entries are discarded. We evaluate R$^2$ECAP on three open-weight LLMs and three datasets. R$^2$ECAP achieves up to 79% attack success rate (ASR) and outperforms HijackKV, a state-of-the-art white-box KV poisoning attack, in 8 of 9 resource-constrained settings. It also achieves 46% ASR in a realistic reasoning-trace retrieval system. Finally, R$^2$ECAP remains stealthy, with only 1% of its retained responses detected by a popular prompt injection detector.",
+      "publishedDate": "2026-10-16T03:22:33Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.22873",
+      "categories": [
+        "rag",
+        "reasoning",
+        "prompting"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.22818",
+      "title": "FuseRAG: Fusing Structure and Evidence into Inference for Cost-Efficient Graph-based RAG",
+      "authors": [
+        "Tingqi Wang",
+        "Yingshu Li",
+        "Zhipeng Cai"
+      ],
+      "abstract": "Graph-based retrieval-augmented generation (RAG) exploits relationships among evidence to support multi-hop question answering. However, conveying retrieved graphs through non-unique linear textual contexts to Large Language Models (LLMs) leads to graph-structure degradation and inefficient KV-cache reuse. Meanwhile, graph-structure order optimization is already NP-hard, and the additional KV-cache reuse objective further complicates the search by introducing potentially conflicting orders. To tackle these issues, we propose FuseRAG, a cost-efficient graph-based RAG framework that shifts most retrieved evidence from explicit textual contexts to latent representations. Our main idea is to separate reusable evidence content from query-aware structural interactions in latent space, while retaining only a few explicit facts as semantic anchors. The resulting latent representations are injected into decoder self-attention, where they reshape attention over evidence and thereby influence hidden states and next-token probabilities. This design preserves graph structure through latent interactions, enables evidence reuse beyond exact token-prefix matching. Experiments on three multi-hop question-answering datasets with Llama-3-8B and Qwen3.5-9B show that FuseRAG improves answer quality while achieving up to 2.7x and 2.2x TTFT speedups over the fastest graph-based baseline, respectively.",
+      "publishedDate": "2026-10-16T01:51:18Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.22818",
+      "categories": [
+        "rag",
+        "code-generation"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.22807",
+      "title": "On the Position Bias of Large Language Models: A Comprehensive Study",
+      "authors": [
+        "Yining Li",
+        "Huayang Li",
+        "Lemao Liu",
+        "Taro Watanabe"
+      ],
+      "abstract": "Recent studies have shown that position bias remains a critical vulnerability in large language models (LLMs), undermining both the integrity of multiple-choice evaluations and the reliability of retrieval-augmented generation. However, existing understanding of this phenomenon is largely derived from studies with limited model coverage and English-centric benchmarks, leaving the behavior of frontier models and diverse languages underexplored. In this work, we conduct a comprehensive investigation of position bias across model scales ranging from billion-level to trillion-level parameters, covering both multiple-choice and multi-document tasks in five languages. Our experiments reveal that while position bias remains noticeable in small-scale models and Non-English languages, increasing model scale and employing standard Chain-of-Thought prompting significantly mitigate this issue. Moreover, we demonstrate that emerging \\emph{thinking models} with extended reasoning capabilities are nearly immune to position bias, suggesting a costly but general approach toward resolving this vulnerability.",
+      "publishedDate": "2026-10-16T01:35:43Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.22807",
+      "categories": [
+        "rag",
+        "prompting",
+        "evaluation",
+        "reasoning"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.22702",
+      "title": "ACE: An AI-Orchestrated Intrusion Detection and Compliance Mapping Engine",
+      "authors": [
+        "Abdoulie Ceesay",
+        "Rishikesh Sahay",
+        "Md Rasel Al Mamun",
+        "Bell Raj Eapen"
+      ],
+      "abstract": "This study proposes the Automated Compliance Engine (ACE), an AI-orchestrated framework that links intrusion detection, regulatory control mapping, and automated countermeasure deployment for security operations environments. ACE integrates Suricata IDS, a LangGraph five-stage workflow, retrieval-augmented generation, NIST SP 800-53 Rev. 5 control retrieval, large language model-based control ranking, and SSH-based Suricata rule deployment. The framework was evaluated in a two-virtual-machine laboratory using eight simulated attack scenarios and three legitimate traffic tests. ACE processed all eight attack alerts, achieved 100% alert detection, 0% false positives across legitimate traffic tests, generated deployable AUTO rules for 37.5% of alerts, verified 100% deployment of generated rules, and achieved an average NIST control-mapping confidence score of 0.87. The DeepEval assessment produced 1.0 scores for answer relevancy and faithfulness, while the hallucination score reflected known LLM-as-judge calibration limitations. The evaluation was conducted in a controlled environment with a limited attack set. Further validation is required using enterprise-scale telemetry, multiple IDS sensors, and an analyst-in-the-loop review. The results demonstrate how AI-assisted security automation can reduce analyst effort in translating IDS alerts into compliance-relevant evidence and defensive actions. ACE contributes an integrated detection-to-compliance-to-response workflow combining IDS telemetry, RAG-based control mapping, and automated rule deployment.",
+      "publishedDate": "2026-10-15T22:08:08Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.22702",
+      "categories": [
+        "rag",
+        "evaluation"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.22652",
+      "title": "Evidence-Gated Bilingual RAG for Reliable Consumer Banking Search",
+      "authors": [
+        "Ahmed Mohamed Mahmoud Rayyan",
+        "Rana Mahmoud Mohammed",
+        "Aya Abdallah Abdelmonem",
+        "Mohamed Khaled Goda Othman",
+        "Rahatara Ferdousi"
+      ],
+      "abstract": "Consumers often describe what they need rather than use the terminology found on a banking website. For example, a natural-language request (\"a card for travel\") may not share the keywords of the relevant product page, and the problem is harder in bilingual services, where the same intent may be expressed in Arabic or English. This paper presents an evidence-gated bilingual retrieval-augmented generation (RAG) framework for consumer banking search that operates entirely on local infrastructure. The framework combines structured web-content refinement, hybrid dense-lexical retrieval, intent-aware evidence selection, cross-encoder reranking, and a three-outcome Answer / Related Mismatch / No Answer decision mechanism. On 210 URL-labeled Arabic and English queries, the proposed approach improves Top-1 hit rate from 50.48% to 79.05% and MRR@5 from 0.571 to 0.797 over a hybrid baseline. A separate 26-case end-to-end evaluation achieved 69.2% strict success, with 72.7% of generated answers classified as supported by an automated faithfulness judge. These results are preliminary: the retrieval queries are paraphrases of a small reference set, and the end-to-end test is small and uses an automated rather than human judge, so they do not establish human-verified answer correctness or generalizable performance.",
+      "publishedDate": "2026-10-15T21:12:10Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.22652",
+      "categories": [
+        "rag",
+        "code-generation",
+        "evaluation"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.22615",
+      "title": "When Does Uncertainty Measure RAG Hallucination Risk?",
+      "authors": [
+        "Rajeel Ahmad Ansari",
+        "Tautik Agrahari"
+      ],
+      "abstract": "Uncertainty can measure hallucination risk in retrieval-augmented generation (RAG), but only when retrieved evidence constrains the answer. When evidence is present, unsupported factual claims become less likely; when retrieval coverage is poor, the model can answer from internal knowledge and assign high probability to unsupported claims. We test this across four instruction-tuned models on HotpotQA and SQuAD. After matching faithful and hallucinated answers within word-count bins, length-only classifiers fall near chance, while perplexity reaches 0.81--0.91 AUROC on targeted unsupported edits. Varying retrieval depth shows why the score changes meaning: detection can weaken with only the top-ranked passage, then recover after adding a second passage. A combined uncertainty and semantic-drift score improves calibration, and measurements remain above chance on RAGTruth QA. Results support a conditional view of uncertainty as a useful measure of RAG hallucination risk.",
+      "publishedDate": "2026-10-15T20:17:26Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.22615",
+      "categories": [
+        "rag",
+        "prompting"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.22588",
+      "title": "SAG2: Embedding-Free Multi-Hop Retrieval with BM25 and JEV",
+      "authors": [
+        "Yuchao Wu"
+      ],
+      "abstract": "Strong multi-hop retrieval should be practical to deploy without expensive corpus preparation or complex database infrastructure. We present SAG2, an embedding-free retrieval architecture built around a single SQLite database, BM25, and contextual evidence decisions from JEV. SAG2 follows the query-time association principle of SAG (SQL-Retrieval Augmented Generation), while replacing its event-entity and dense indexes with a lexical index over original passages. Selected passages supply terms for further retrieval, and newly retrieved evidence guides subsequent decisions. This moves semantic evidence selection to query time, eliminating offline embedding computation, LLM-based event-entity extraction, and dedicated database servers. The resulting system combines lightweight preparation with strong retrieval accuracy: on 1,000-question subsets of MuSiQue, 2WikiMultiHopQA, and HotpotQA, SAG2 achieves the highest Recall@5 and Recall@10 among the compared methods, with Recall@10 of 86.62%, 97.43%, and 99.00%. It also reaches 81.10% document Recall@10 over the 511,962-document EnterpriseRAG-Bench corpus. Indexing all 11,656 MuSiQue passages takes 2.36 seconds, produces a 25.87 MiB database, and requires no model calls. SAG2 demonstrates that accurate multi-hop evidence retrieval can be supported by compact, rapidly prepared infrastructure, making it a practical foundation for knowledge retrieval applications.",
+      "publishedDate": "2026-10-15T19:37:48Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.22588",
+      "categories": [
+        "rag",
+        "tool-use"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.22579",
+      "title": "MemLLM: End-to-end In-Storage Acceleration of On-device Retrieval-Augmented Generation using Precomputed KV Caches",
+      "authors": [
+        "Seungkwan Kang",
+        "Hyungseok Ko",
+        "Heemin Kim",
+        "Myoungsoo Jung"
+      ],
+      "abstract": "Retrieval-augmented generation (RAG) on edge devices enables personalized large language model (LLM) inference while preserving privacy. However, RAG's inherent length asymmetry makes the prefill phase the dominant bottleneck. While precomputing the KV caches offline alleviates the prefill cost on server systems, the multi-gigabyte caches over the narrow interconnect create a severe I/O wall for on-device systems. To mitigate this, we propose MemLLM, an end-to-end in-storage processing (ISP) architecture that executes the complete attention pipeline based on precomputed KV caches within the SSD. MemLLM utilizes per-channel accelerators to fully utilize the aggregated NAND channel bandwidth and accelerates all KV cache-related computations on the storage-side to minimize PCIe transfers. To efficiently handle the sparse updates required by RAG, MemLLM introduces a fused recomputation-query kernel paired with a hardware-based filter logic to halve the NAND read volume and eliminate write-back penalties. Furthermore, MemLLM's global SRAM-based stateful reduction engine enables a completely DRAM-less dataflow, thereby removing the internal memory bottlenecks and bounding the PCIe egress to an $O(1)$ footprint. A full-stack software stack allows asynchronous, zero-copy transfers from the ISP to the host and provides transparent execution within modern ML frameworks. Evaluated across eight real-world RAG datasets and six on-device LLM models, MemLLM achieves an average end-to-end speedup of 4.06$\\times$ over the GPU baseline.",
+      "publishedDate": "2026-10-15T19:27:40Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.22579",
+      "categories": [
+        "rag",
+        "code-generation"
+      ],
+      "year": 2026
+    },
+    {
+      "id": "2610.22511",
+      "title": "AuditKIT: A Unified Evaluation Spine for Benchmarking, Judging, and Comparing Large Language Models and Agentic Systems",
+      "authors": [
+        "Shreeyans Arora",
+        "Utsav Avaiya",
+        "Zera Lyngkhoi",
+        "Hem Gosalia",
+        "Ram Mohan Rao Kadiyala",
+        "Vinay Kumar Sankarapu",
+        "Pratinav Seth"
+      ],
+      "abstract": "Evaluating language models and agents requires combining benchmark accuracy, judge-based assessment, runtime performance, tool-use behavior, and retrieval quality. Differences in interfaces, metric semantics, and trace formats complicate these comparisons and can hide failures in agentic workflows. We present AuditKIT, a source-available evaluation library that records these measurements in one result representation, with direction-aware metric contracts, configuration fingerprints, and extensible metrics and backends. For agents, it provides turn-aware tool-call matching, separates parallel from sequential execution, and distinguishes verified task outcomes from trajectory-level diagnostics. Missing or unobservable evidence is marked unscored rather than counted as failure. For retrieval-augmented generation, it combines ranked retrieval metrics, judged grounding, and deterministic evidence checks. Seven case studies spanning model comparison, serving runtimes, retrieval, tool calling, and interoperability show how answer extraction, runtime behavior, and metric selection change evaluation outcomes.",
+      "publishedDate": "2026-10-15T18:05:10Z",
+      "arxivUrl": "https://arxiv.org/abs/2610.22511",
+      "categories": [
+        "evaluation",
+        "agents",
+        "rag"
+      ],
+      "year": 2026
+    },
     {
       "id": "2610.22360",
       "title": "Grounding Generative Verification in 3D Content",
